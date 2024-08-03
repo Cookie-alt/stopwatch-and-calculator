@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            
+            background-color: #fff;
+            width: 40%;
+            min-width: 400px;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+            padding: 20px 0;
+            padding-bottom: 50px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.338);
+
+
+        }
+
+        .body{
+            background: #000;
+        }
+
+        .timerDisplay{
+            position: relative;
+            width: 95%;
+            background: white;
+            left: 3%;
+            color: #4c13be;
+            font-size: 30px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(65, 5, 145, 0.25);
+
+        }
+
+        
+        
+         .buttons button{
+            margin-left:10px;
+            border-radius: 20px;
+            background-color: rgb(10, 132, 132);
+            color: azure;
+            height: 60px;
+            width: 100px;
+            flex-wrap: wrap;
+         }
+         .buttons button:nth-last-child(2) {
+            background-color: #09e39e;
+        }
+        
+        .buttons button:nth-last-child(1) {
+            background-color: #d4c449;
+        }
+        
+        .buttons button:hover {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+        }
+         
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="timerDisplay">
+        00:00:00:00
+        </div>
+        <div class="buttons">
+            <button id="startTimer">Start</button>
+            <button id="pauseTimer">Pause</button>
+            <button id="resetTimer">Reset</button>
+        </div>
+        
+
+    </div>
+  
+
+
+
+<script>
+  let [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
+let timeRef = document.querySelector(".timerDisplay");
+let int = null;
+
+document.getElementById("startTimer").addEventListener("click", () => {
+    if(int !== null) {
+        clearInterval(int);
+    }
+    int = setInterval(displayTimer, 10);
+});
+
+document.getElementById("pauseTimer").addEventListener("click", () => {
+    clearInterval(int);
+});
+
+document.getElementById("resetTimer").addEventListener("click", () => {
+    clearInterval(int);
+    [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
+    timeRef.innerHTML = "00 : 00 : 00 : 000 ";
+}); 
+
+function displayTimer() {
+    milliseconds += 10;
+    if(milliseconds == 1000) {
+        milliseconds = 0;
+        seconds++;
+        if(seconds == 60) {
+            seconds = 0;
+            minutes++;
+            if(minutes == 60) {
+                minutes = 0;
+                hours++;
+            }
+        }
+    }
+
+    let h = hours < 10 ? "0" + hours : hours;
+    let m = minutes < 10 ? "0" + minutes : minutes;
+    let s = seconds < 10 ? "0" + seconds : seconds;
+    let ms = 
+        milliseconds < 10
+        ? "00" + milliseconds
+        : milliseconds < 100
+        ? "0" + milliseconds
+        : milliseconds;
+
+    timeRef.innerHTML = `${h} : ${m} : ${s} : ${ms}`;
+
+}
+
+</script>
+</body>
+</html>
